@@ -1,0 +1,1 @@
+# loyalty-station-android-sdk
