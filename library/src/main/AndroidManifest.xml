@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".ui.GamiphyWebViewActivity"
+            android:name=".webview.GamiphyWebViewActivity"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.GamixTheme" />
 

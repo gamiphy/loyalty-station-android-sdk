@@ -1,5 +1,6 @@
 package com.gamiphy.library.constant
 
+import com.gamiphy.library.helper.JavaScriptInterfaceHelper
 import com.gamiphy.library.models.CoreConfig
 import com.google.gson.Gson
 
@@ -11,7 +12,7 @@ object JavaScriptScripts {
         return ("javascript: window.Gamiphy.init({\n" +
                 "$json,\n" +
                 "goToAuth: function (event) {" +
-                JAVASCRIPT_OBJ + ".isLoggedIn(JSON.stringify(event)); " +
+                JAVASCRIPT_OBJ + "." + JavaScriptInterfaceHelper()::isLoggedIn.name + "(JSON.stringify(event)); " +
                 "}" +
                 "})"
                 )

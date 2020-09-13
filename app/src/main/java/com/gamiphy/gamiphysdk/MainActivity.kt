@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.gamiphy.library.GamiBot
+import com.gamiphy.library.LoyaltyStation
 import com.gamiphy.library.callback.OnAuthTrigger
 import com.gamiphy.library.models.User
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        GamiBot.getInstance().addOnAuthListener(object : OnAuthTrigger {
+        LoyaltyStation.getInstance().addOnAuthListener(object : OnAuthTrigger {
             override fun onAuthTrigger(signUp: Boolean) {
                 // make your action here, you may start login activity
                 Log.d("onAuthTrigger", "$signUp")
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         findViewById<Button>(R.id.login).setOnClickListener {
-            GamiBot.getInstance().login(
+            LoyaltyStation.getInstance().login(
                 User(
                     firstName = "Riyad",
                     lastName = "Yahya",
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         button.setOnClickListener {
-            GamiBot.getInstance().open(this)
+            LoyaltyStation.getInstance().open(this)
         }
     }
 }

@@ -5,18 +5,16 @@ import androidx.annotation.RestrictTo
 import com.gamiphy.library.callback.OnAuthTrigger
 import com.gamiphy.library.helper.JavaScriptInterfaceHelper
 import com.gamiphy.library.models.CoreConfig
+import com.gamiphy.library.models.GamiphyData
 import com.gamiphy.library.models.GamiphyEnvironment
 import com.gamiphy.library.models.User
-import com.gamiphy.library.ui.GamiphyWebViewActions
-import com.gamiphy.library.ui.GamiphyWebViewActivity
-import com.gamiphy.library.models.GamiphyData
+import com.gamiphy.library.webview.GamiphyWebViewActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
-class GamiBotImpl : GamiBot {
+class LoyaltyStationImpl : LoyaltyStation {
     private val gamiphyData = GamiphyData.getInstance()
-    private val gamiphyWebViewActionsList = mutableListOf<GamiphyWebViewActions>()
 
-    override fun init(context: Context, config: CoreConfig): GamiBot {
+    override fun init(context: Context, config: CoreConfig): LoyaltyStation {
         gamiphyData.config = config
         open(context)
         return this
@@ -31,32 +29,24 @@ class GamiBotImpl : GamiBot {
     }
 
     override fun login(user: User) {
-        gamiphyWebViewActionsList.forEach {
+        GamiphyWebViewActivity.gamiphyWebViewActionsList.forEach {
             it.login(user)
         }
     }
 
     override fun logout(context: Context) {
-        gamiphyWebViewActionsList.forEach {
+        GamiphyWebViewActivity.gamiphyWebViewActionsList.forEach {
             it.logout()
         }
     }
 
     override fun close() {
-        gamiphyWebViewActionsList.forEach {
+        GamiphyWebViewActivity.gamiphyWebViewActionsList.forEach {
             it.close()
         }
     }
 
     override fun addOnAuthListener(onAuthTrigger: OnAuthTrigger) {
         JavaScriptInterfaceHelper.onAuthTriggerListeners.add(onAuthTrigger)
-    }
-
-    override fun registerGamiphyWebViewActions(gamiphyWebViewActions: GamiphyWebViewActions) {
-        gamiphyWebViewActionsList.add(gamiphyWebViewActions)
-    }
-
-    override fun unRegisterGamiphyWebViewActions(gamiphyWebViewActions: GamiphyWebViewActions) {
-        gamiphyWebViewActionsList.remove(gamiphyWebViewActions)
     }
 }

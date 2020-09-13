@@ -1,4 +1,4 @@
-package com.gamiphy.library.ui
+package com.gamiphy.library.webview
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,7 +13,6 @@ import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.gamiphy.library.GamiBot
 import com.gamiphy.library.helper.JavaScriptInterfaceHelper
 import com.gamiphy.library.R
 import com.gamiphy.library.models.User
@@ -30,13 +29,14 @@ class GamiphyWebViewActivity : AppCompatActivity(),
     private lateinit var progressBar: ProgressBar
     private val gamiphyData = GamiphyData.getInstance()
     private var firstLogin: Boolean = true
+    private val gamiphyWebViewActionsList = mutableListOf<GamiphyWebViewActions>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         checkFirstStart()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gamiphy_web_view)
-        GamiBot.getInstance().registerGamiphyWebViewActions(this)
         initViews()
+        gamiphyWebViewActionsList.add(this)
     }
 
     private fun checkFirstStart() {
@@ -44,11 +44,6 @@ class GamiphyWebViewActivity : AppCompatActivity(),
             moveTaskToBack(true);
             firstLogin = false
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        GamiBot.getInstance().unRegisterGamiphyWebViewActions(this)
     }
 
     override fun login(user: User) {
@@ -192,6 +187,7 @@ class GamiphyWebViewActivity : AppCompatActivity(),
     }
 
     companion object {
+        val gamiphyWebViewActionsList = mutableListOf<GamiphyWebViewActions>()
         @JvmStatic
         fun newIntent(context: Context) =
             Intent(context, GamiphyWebViewActivity::class.java).apply {

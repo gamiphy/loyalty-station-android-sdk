@@ -5,25 +5,22 @@ import com.gamiphy.library.callback.OnAuthTrigger
 import com.gamiphy.library.models.CoreConfig
 import com.gamiphy.library.models.GamiphyEnvironment
 import com.gamiphy.library.models.User
-import com.gamiphy.library.ui.GamiphyWebViewActions
 
-interface GamiBot {
-    fun init(context: Context, config: CoreConfig): GamiBot
+interface LoyaltyStation {
+    fun init(context: Context, config: CoreConfig): LoyaltyStation
     fun setEnvironment(env: GamiphyEnvironment)
     fun open(context: Context)
     fun close()
     fun login(user: User)
     fun logout(context: Context)
     fun addOnAuthListener(onAuthTrigger: OnAuthTrigger)
-    fun registerGamiphyWebViewActions(gamiphyWebViewActions: GamiphyWebViewActions)
-    fun unRegisterGamiphyWebViewActions(gamiphyWebViewActions: GamiphyWebViewActions)
 
     companion object {
-        private var instance: GamiBotImpl? = null
+        private var instance: LoyaltyStationImpl? = null
 
-        fun getInstance(): GamiBot {
+        fun getInstance(): LoyaltyStation {
             if (instance == null) {
-                instance = GamiBotImpl()
+                instance = LoyaltyStationImpl()
             }
             return instance!!
         }

@@ -3,7 +3,7 @@ package com.gamiphy.gamiphysdk
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.gamiphy.library.GamiBot
+import com.gamiphy.library.LoyaltyStation
 
 class Main2Activity : AppCompatActivity() {
 
@@ -13,7 +13,7 @@ class Main2Activity : AppCompatActivity() {
         val btn: Button = findViewById(R.id.button)
 
         btn.setOnClickListener {
-            GamiBot.getInstance().logout(this)
+            LoyaltyStation.getInstance().logout(this)
         }
     }
 }
