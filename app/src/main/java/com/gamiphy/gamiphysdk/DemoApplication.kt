@@ -1,9 +1,9 @@
 package com.gamiphy.gamiphysdk
 
 import android.app.Application
-import com.gamiphy.library.LoyaltyStation
-import com.gamiphy.library.models.CoreConfig
-import com.gamiphy.library.models.GamiphyEnvironment
+import com.gamiphy.loyaltystation.loyaltystationsdk.LoyaltyStation
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.CoreConfig
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.GamiphyEnvironment
 
 
 class DemoApplication() : Application() {

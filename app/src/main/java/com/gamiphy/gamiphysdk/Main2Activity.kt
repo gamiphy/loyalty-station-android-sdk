@@ -3,7 +3,7 @@ package com.gamiphy.gamiphysdk
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.gamiphy.library.LoyaltyStation
+import com.gamiphy.loyaltystation.loyaltystationsdk.LoyaltyStation
 
 class Main2Activity : AppCompatActivity() {
 

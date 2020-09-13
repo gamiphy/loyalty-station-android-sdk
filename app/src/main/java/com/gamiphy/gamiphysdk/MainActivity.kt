@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.gamiphy.library.LoyaltyStation
-import com.gamiphy.library.callback.OnAuthTrigger
-import com.gamiphy.library.models.User
+import com.gamiphy.loyaltystation.loyaltystationsdk.LoyaltyStation
+import com.gamiphy.loyaltystation.loyaltystationsdk.callback.OnAuthTrigger
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.User
 
 class MainActivity : AppCompatActivity() {
 

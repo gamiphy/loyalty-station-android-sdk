@@ -1,4 +1,4 @@
-package com.gamiphy.library.webview
+package com.gamiphy.loyaltystation.webview
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -13,23 +13,19 @@ import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.gamiphy.library.helper.JavaScriptInterfaceHelper
-import com.gamiphy.library.R
-import com.gamiphy.library.models.User
-import com.gamiphy.library.constant.GamiphyConstants
-import com.gamiphy.library.models.GamiphyData
-import com.gamiphy.library.constant.JavaScriptScripts
-import com.gamiphy.library.constant.JavaScriptScripts.JAVASCRIPT_OBJ
+import com.gamiphy.loyaltystation.jsintegration.JsIntegrationImp
+import com.gamiphy.loyaltystation.R
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.User
+import com.gamiphy.loyaltystation.jsintegration.Config
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.GamiphyData
 
 
-class GamiphyWebViewActivity : AppCompatActivity(),
-    GamiphyWebViewActions {
+class GamiphyWebViewActivity : AppCompatActivity(), WebviewActions {
     private lateinit var webView: WebView
     private lateinit var closeBtn: ImageButton
     private lateinit var progressBar: ProgressBar
     private val gamiphyData = GamiphyData.getInstance()
     private var firstLogin: Boolean = true
-    private val gamiphyWebViewActionsList = mutableListOf<GamiphyWebViewActions>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         checkFirstStart()
@@ -64,15 +60,20 @@ class GamiphyWebViewActivity : AppCompatActivity(),
         onBackPressed()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        gamiphyWebViewActionsList.clear()
+    }
+
     override fun refresh() {
-        initWebView(GamiphyConstants.BOT_API)
+        initWebView(Config.BOT_API)
     }
 
     private fun initViews() {
         webView = findViewById(R.id.webView)
         progressBar = findViewById(R.id.progressBar)
         closeBtn = findViewById(R.id.close_btn)
-        initWebView(GamiphyConstants.BOT_API)
+        initWebView(Config.BOT_API)
     }
 
     @SuppressLint("SetJavaScriptEnabled", "AddJavascriptInterface")
@@ -90,10 +91,10 @@ class GamiphyWebViewActivity : AppCompatActivity(),
 
         }
 
-        webView.loadDataWithBaseURL(url, GamiphyConstants.BOT_SCRIPT, "text/html", null, "")
+        webView.loadDataWithBaseURL(url, Config.BOT_SCRIPT, "text/html", null, "")
 
         webView.addJavascriptInterface(
-            JavaScriptInterfaceHelper(), JAVASCRIPT_OBJ
+            JsIntegrationImp(), Config.JAVASCRIPT_OBJ
         )
 
         webView.webViewClient = object : WebViewClient() {
@@ -155,7 +156,7 @@ class GamiphyWebViewActivity : AppCompatActivity(),
      * else open unSigned web view
      */
     private fun postTokenMessage() {
-        executeJavaScript(JavaScriptScripts.init(gamiphyData.config!!))
+        executeJavaScript(Config.init(gamiphyData.config!!))
     }
 
     private fun executeJavaScript(script: String) {
@@ -187,7 +188,7 @@ class GamiphyWebViewActivity : AppCompatActivity(),
     }
 
     companion object {
-        val gamiphyWebViewActionsList = mutableListOf<GamiphyWebViewActions>()
+        var gamiphyWebViewActionsList = mutableListOf<WebviewActions>()
         @JvmStatic
         fun newIntent(context: Context) =
             Intent(context, GamiphyWebViewActivity::class.java).apply {

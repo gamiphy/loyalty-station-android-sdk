@@ -1,4 +1,4 @@
-package com.gamiphy.library.models
+package com.gamiphy.loyaltystation.loyaltystationsdk.models
 
 /**
  * This is as a repo for data shared inside the library.

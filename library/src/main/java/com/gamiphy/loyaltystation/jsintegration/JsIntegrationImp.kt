@@ -1,12 +1,12 @@
-package com.gamiphy.library.helper
+package com.gamiphy.loyaltystation.jsintegration
 
 import android.webkit.JavascriptInterface
-import com.gamiphy.library.callback.OnAuthTrigger
+import com.gamiphy.loyaltystation.loyaltystationsdk.callback.OnAuthTrigger
 
-class JavaScriptInterfaceHelper {
+class JsIntegrationImp : JsIntegration {
 
     @JavascriptInterface
-    fun isLoggedIn(isLogIn: Boolean) {
+    override fun isLoggedIn(isLogIn: Boolean) {
         authTrigger(isLogIn)
     }
 

@@ -1,4 +1,4 @@
-package com.gamiphy.library.models
+package com.gamiphy.loyaltystation.loyaltystationsdk.models
 
 data class User(
     var id: String? = null,

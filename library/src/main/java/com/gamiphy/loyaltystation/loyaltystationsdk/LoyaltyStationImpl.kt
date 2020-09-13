@@ -1,14 +1,14 @@
-package com.gamiphy.library
+package com.gamiphy.loyaltystation.loyaltystationsdk
 
 import android.content.Context
 import androidx.annotation.RestrictTo
-import com.gamiphy.library.callback.OnAuthTrigger
-import com.gamiphy.library.helper.JavaScriptInterfaceHelper
-import com.gamiphy.library.models.CoreConfig
-import com.gamiphy.library.models.GamiphyData
-import com.gamiphy.library.models.GamiphyEnvironment
-import com.gamiphy.library.models.User
-import com.gamiphy.library.webview.GamiphyWebViewActivity
+import com.gamiphy.loyaltystation.loyaltystationsdk.callback.OnAuthTrigger
+import com.gamiphy.loyaltystation.jsintegration.JsIntegrationImp
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.CoreConfig
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.GamiphyData
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.GamiphyEnvironment
+import com.gamiphy.loyaltystation.loyaltystationsdk.models.User
+import com.gamiphy.loyaltystation.webview.GamiphyWebViewActivity
 
 @RestrictTo(RestrictTo.Scope.LIBRARY)
 class LoyaltyStationImpl : LoyaltyStation {
@@ -47,6 +47,6 @@ class LoyaltyStationImpl : LoyaltyStation {
     }
 
     override fun addOnAuthListener(onAuthTrigger: OnAuthTrigger) {
-        JavaScriptInterfaceHelper.onAuthTriggerListeners.add(onAuthTrigger)
+        JsIntegrationImp.onAuthTriggerListeners.add(onAuthTrigger)
     }
 }
