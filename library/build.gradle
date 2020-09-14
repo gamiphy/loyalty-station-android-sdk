@@ -8,6 +8,7 @@ repositories {
     mavenCentral()
     google()
     jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 group = 'com.github.gamiphy'
