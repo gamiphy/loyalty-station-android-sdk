@@ -1,11 +1,11 @@
-package com.gamiphy.loyaltystation.webview
+package com.gamiphy.loyaltyStation.webview
 
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope
-import com.gamiphy.loyaltystation.loyaltystationsdk.models.User
+import com.gamiphy.loyaltyStation.models.User
 
 @RestrictTo(Scope.LIBRARY)
-interface WebviewActions {
+interface WebViewActions {
 
     fun login(user: User)
 

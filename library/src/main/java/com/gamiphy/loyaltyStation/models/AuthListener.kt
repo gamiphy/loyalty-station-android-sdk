@@ -1,9 +1,6 @@
-package com.gamiphy.loyaltystation.loyaltystationsdk.callback
+package com.gamiphy.loyaltyStation.models;
 
-/**
- * A listener for authentication events from Gamiphy bot such that you can implement your actions for login/SignUp events.
- */
-interface OnAuthTrigger {
+interface AuthListener {
 
     /**
      *  Called when the bot requires login/sign up for the user or the login button inside bot clicked.
@@ -11,5 +8,4 @@ interface OnAuthTrigger {
      *  @param isSignUp : true for sign up redirection,false for login redirection.
      */
     fun onAuthTrigger(isSignUp: Boolean)
-
 }

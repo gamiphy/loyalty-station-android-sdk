@@ -1,12 +1,10 @@
-package com.gamiphy.loyaltystation.loyaltystationsdk.models
+package com.gamiphy.loyaltyStation.jsSdk.models
 
-data class CoreConfig(
+import com.gamiphy.loyaltyStation.models.User
+
+data class JsSdkInitConfig(
     var app: String,
     var user: User? = null,
-    var visible: Boolean? = true,
     var openByDefault: Boolean? = true,
     var barHidden: Boolean? = true
 )
-
-
-

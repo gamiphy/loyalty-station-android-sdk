@@ -1,4 +1,4 @@
-package com.gamiphy.gamiphysdk
+package com.gamiphy.demo
 
 import org.junit.Test
 
