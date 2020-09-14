@@ -1,6 +1,6 @@
 package com.gamiphy.loyaltyStation.models;
 
-interface AuthListener {
+interface Listener {
 
     /**
      *  Called when the bot requires login/sign up for the user or the login button inside bot clicked.

@@ -2,7 +2,8 @@ package com.gamiphy.loyaltyStation
 
 import android.content.Context
 import androidx.annotation.RestrictTo
-import com.gamiphy.loyaltyStation.models.AuthListener
+import com.gamiphy.loyaltyStation.models.Config
+import com.gamiphy.loyaltyStation.models.Listener
 import com.gamiphy.loyaltyStation.models.User
 import com.gamiphy.loyaltyStation.webview.WebViewActivity
 import com.gamiphy.loyaltyStation.webview.WebViewConfig
@@ -11,8 +12,8 @@ import com.gamiphy.loyaltyStation.webview.WebViewConfig
 class LoyaltyStationImpl : LoyaltyStation {
     private lateinit var config: Config
 
-    override fun init(context: Context, config: Config): LoyaltyStation {
-        WebViewActivity.init(WebViewConfig(config.app, config.user));
+    override fun init(context: Context, config: Config, listener: Listener): LoyaltyStation {
+        WebViewActivity.init(WebViewConfig(config.app, config.user), listener);
         this.config = config;
         open(context)
         return this
@@ -38,9 +39,5 @@ class LoyaltyStationImpl : LoyaltyStation {
         WebViewActivity.actionsList.forEach {
             it.logout()
         }
-    }
-
-    override fun addOnAuthListener(authListener: AuthListener) {
-        WebViewActivity.setAuthTrigger(authListener)
     }
 }

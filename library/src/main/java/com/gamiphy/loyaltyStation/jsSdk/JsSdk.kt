@@ -2,11 +2,11 @@ package com.gamiphy.loyaltyStation.jsSdk
 
 import android.webkit.JavascriptInterface
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
-import com.gamiphy.loyaltyStation.models.AuthListener
+import com.gamiphy.loyaltyStation.models.Listener
 
 interface JsSdk {
     var config: JsSdkConfig
-    var authListener: AuthListener?
+    var listener: Listener
 
     fun getUrl(): String
     fun getInitScript(): String

@@ -18,8 +18,8 @@ import com.gamiphy.loyaltyStation.jsSdk.JsSdk
 import com.gamiphy.loyaltyStation.jsSdk.JsSdkImp
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkInitConfig
-import com.gamiphy.loyaltyStation.models.AuthListener
 import com.gamiphy.loyaltyStation.models.Environments
+import com.gamiphy.loyaltyStation.models.Listener
 import com.gamiphy.loyaltyStation.models.User
 
 class WebViewActivity : AppCompatActivity(), WebViewActions {
@@ -180,18 +180,15 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
         private lateinit var jsSdk: JsSdk
         var actionsList = mutableListOf<WebViewActions>()
 
-        fun init(config: WebViewConfig) {
+        fun init(config: WebViewConfig, listener: Listener) {
             WebViewActivity.config = config;
             jsSdk = JsSdkImp(
                 JsSdkConfig(
                     JsSdkInitConfig(config.app, config.user),
                     Environments.DEV
-                )
+                ),
+                listener
             )
-        }
-
-        fun setAuthTrigger(authListener: AuthListener) {
-            jsSdk.authListener = authListener;
         }
 
         @JvmStatic

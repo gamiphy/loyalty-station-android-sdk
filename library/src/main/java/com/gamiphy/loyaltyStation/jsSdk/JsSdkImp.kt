@@ -2,13 +2,11 @@ package com.gamiphy.loyaltyStation.jsSdk
 
 import android.webkit.JavascriptInterface
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
-import com.gamiphy.loyaltyStation.models.AuthListener
+import com.gamiphy.loyaltyStation.models.Listener
 import com.gamiphy.loyaltyStation.models.Environments
 import com.google.gson.Gson
 
-class JsSdkImp(override var config: JsSdkConfig) : JsSdk {
-    override var authListener: AuthListener? = null
-
+class JsSdkImp(override var config: JsSdkConfig, override var listener: Listener) : JsSdk {
     override fun getUrl(): String {
         return when (this.config.environment) {
             Environments.DEV -> "https://static-dev.gamiphy.co/sdk/android.html"
@@ -30,9 +28,7 @@ class JsSdkImp(override var config: JsSdkConfig) : JsSdk {
 
     @JavascriptInterface
     override fun authTrigger(isSignUp: Boolean) {
-        if (this.authListener !== null) {
-            this.authListener!!.onAuthTrigger(isSignUp)
-        }
+        this.listener.onAuthTrigger(isSignUp)
     }
 }
 
