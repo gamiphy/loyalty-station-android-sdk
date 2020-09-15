@@ -19,7 +19,7 @@ Gamiphy Loyalty & Rewards is available through [JitPack](https://github.com/gami
 it, simply add the dependency for the Gamiphy SDK in your module (app-level) Gradle file (usually app/build.gradle):
 
 ```gradle
-    implementation ''
+    implementation 'com.github.gamiphy:loyalty-station-android-sdk:v1.0.0'
 ```
 
 and make sure you have jitpack in your root-level (project-level) Gradle file (build.gradle), 
@@ -40,37 +40,35 @@ Gamiphy SDK needs to be initialized in Application class, you can do that by cal
 you can get after you signup for an account at Gamiphy. Kindly note the initilize method below. 
 
 ```kotlin
-      GamiBot.getInstance().init(applicationContext, config = CoreConfig(app = botId))
-```
-And you can set Production environment mode.
-```kotlin
-      GamiBot.getInstance().init(applicationContext, config = CoreConfig(app = botId))
-      .setEnvironment(GamiphyEnvironment.PROD)
+    GamiBot.init(applicationContext,
+        Config(
+            app = "5f58e6e44e7ab40023173692",
+            User(
+                firstName = <User first name>,
+                lastName = <User last name>,
+                email = <User email>,
+                hash = <User hash>
+            )
+        ),
+        object : Listener {
+            override fun onAuthTrigger(isSignUp: Boolean) {
+                // make your action here, you may start login activity
+                Log.d("onAuthTrigger", "$isSignUp")
+            }
+        }
+    )
 ```
 To open the bot, use the following line.
 ```kotlin
-    GamiBot.getInstance().open(applicationContext)
+    GamiBot.open(applicationContext)
 ```
 ## Widget visitor flow 
 
-Gamiphy Loyalty Station support the ability for the end users to navigate the different features available, without even being logged in. But whenever 
-the users trying to perform actions they will be redirected to either login or signup to the application. 
-
-You need to specify the Activity where the users can login / register in your application. You should implement OnAuthTrigger by doing as the following: 
-
-```Kotlin
-        GamiBot.getInstance().registerGamiphyOnAuthTrigger(object : OnAuthTrigger {
-            override fun onAuthTrigger(signUp: Boolean) {
-                // make your action here, you may start login activity
-                Log.d("onAuthTrigger", "$signUp")
-            }
-        })
-```
-OnAuthTrigger method called when click signUp/login in the widget. isSignUp true for signup redirection, isSignUp false for login redirection.
+Gamiphy Loyalty Station support the ability for the end users to navigate the different features available, without even being logged in. But whenever the users trying to perform actions they will be redirected to either login or signup to the application. You need to specify the Activity where the users can login / register in your application. OnAuthTrigger method called when click signUp/login in the widget. isSignUp true for signup redirection, isSignUp false for login redirection.
 
 In login activity, after the user logged in, set user name and email and start gamiphy view
 ```kotlin
-    GamiphySDK.getInstance().login(User(firstName,lastName,email,hash))
+    GamiphySDK.login(User(firstName,lastName,email,hash))
 ```
 
 
