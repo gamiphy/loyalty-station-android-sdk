@@ -40,7 +40,7 @@ you can get after you signup for an account at Gamiphy. Kindly note the initiliz
 ```kotlin
     GamiBot.init(applicationContext,
         Config(
-            app = "5f58e6e44e7ab40023173692",
+            app = <app id>,
             User(
                 firstName = <User first name>,
                 lastName = <User last name>,
