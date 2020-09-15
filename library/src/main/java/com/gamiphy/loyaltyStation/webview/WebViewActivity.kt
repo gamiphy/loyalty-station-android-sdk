@@ -1,8 +1,6 @@
 package com.gamiphy.loyaltyStation.webview
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.net.http.SslError
 import android.os.Build
@@ -185,16 +183,10 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
             jsSdk = JsSdkImp(
                 JsSdkConfig(
                     JsSdkInitConfig(config.app, config.user),
-                    Environments.DEV
+                    Environments.STAGING
                 ),
                 listener
             )
         }
-
-        @JvmStatic
-        fun newIntent(context: Context) =
-            Intent(context, WebViewActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
     }
 }

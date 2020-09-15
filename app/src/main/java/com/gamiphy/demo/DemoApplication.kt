@@ -10,15 +10,15 @@ import com.gamiphy.loyaltyStation.models.User
 class DemoApplication() : Application() {
     override fun onCreate() {
         super.onCreate()
-        LoyaltyStation.getInstance().init(
+        LoyaltyStation.init(
             this,
             Config(
-                "5f040d7cdbd59b001804c401",
+                "5f58e6e44e7ab40023173692",
                 User(
                     firstName = "Riyad",
                     lastName = "Yahya",
-                    email = "riyad@gamiphy.co",
-                    hash = "93b2844c18a8804dee394ee73efde8294ad263c1488ab8522d93dfd55dcb65fb"
+                    email = "adsad@gmailc.om",
+                    hash = "df8eed1b4f3e37b9e220d87eab53133174ec1c71d67985f834bd8bbe2e964c60"
                 )
             ),
             object : Listener {

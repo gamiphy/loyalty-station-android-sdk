@@ -10,6 +10,7 @@ class JsSdkImp(override var config: JsSdkConfig, override var listener: Listener
     override fun getUrl(): String {
         return when (this.config.environment) {
             Environments.DEV -> "https://static-dev.gamiphy.co/sdk/android.html"
+            Environments.STAGING -> "https://static-staging.gamiphy.co/sdk/android.html"
             Environments.PROD -> "https://sdk.gamiphy.co"
         }
     }
