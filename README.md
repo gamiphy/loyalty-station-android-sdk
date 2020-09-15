@@ -1,7 +1,5 @@
 # loyalty-station-android-sdk
 
-[Gamiphy SDK Jitpack Link](https://github.com/gamiphy/loyalty-station-android-sdk)
-
 ## Introduction 
 
 Gamiphy Loyalty & Rewards, is a gamified loyalty program plugin/widget for eCommerce. You will be able to reward users with points for completing pre defined "challenges" within your store. In addition to that users can compete with each other in compeitions reflected on a leaderboard, receive badges and invite their freinds, among other gamified features.
@@ -19,7 +17,7 @@ Gamiphy Loyalty & Rewards is available through [JitPack](https://github.com/gami
 it, simply add the dependency for the Gamiphy SDK in your module (app-level) Gradle file (usually app/build.gradle):
 
 ```gradle
-    implementation 'com.github.gamiphy:loyalty-station-android-sdk:v1.0.0'
+    implementation 'com.github.gamiphy:loyalty-station-android-sdk:v1.0.5'
 ```
 
 and make sure you have jitpack in your root-level (project-level) Gradle file (build.gradle), 
