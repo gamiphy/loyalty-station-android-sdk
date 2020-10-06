@@ -2,17 +2,29 @@ package com.gamiphy.loyaltyStation.jsSdk
 
 import android.webkit.JavascriptInterface
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
-import com.gamiphy.loyaltyStation.models.Listener
+import com.gamiphy.loyaltyStation.models.Agents
 import com.gamiphy.loyaltyStation.models.Environments
+import com.gamiphy.loyaltyStation.models.Listener
 import com.google.gson.Gson
 
-class JsSdkImp(override var config: JsSdkConfig, override var listener: Listener) : JsSdk {
-    override fun getUrl(): String {
+class JsSdkImp(override var config: JsSdkConfig, override var listener: JsListener) : JsSdk {
+    private fun getPath(): String {
+        return when (this.config.agent) {
+            Agents.Default -> "/sdk/android.html"
+            Agents.Floward -> "/sdk/custom/floward/index.html"
+        }
+    }
+
+    private fun getDomain(): String {
         return when (this.config.environment) {
-            Environments.DEV -> "https://static-dev.gamiphy.co/sdk/android.html"
-            Environments.STAGING -> "https://static-staging.gamiphy.co/sdk/android.html"
+            Environments.DEV -> "https://static-dev.gamiphy.co"
+            Environments.STAGING -> "https://static-staging.gamiphy.co"
             Environments.PROD -> "https://sdk.gamiphy.co"
         }
+    }
+
+    override fun getUrl(): String {
+        return this.getDomain() + this.getPath()
     }
 
     override fun getInitScript(): String {
@@ -22,6 +34,9 @@ class JsSdkImp(override var config: JsSdkConfig, override var listener: Listener
                 "$json,\n" +
                 "goToAuth: function (event) {" +
                 JsSdk.JAVASCRIPT_OBJ + "." + JsSdk::authTrigger.name + "(JSON.stringify(event)); " +
+                "}," +
+                "onClose: function (event) {" +
+                JsSdk.JAVASCRIPT_OBJ + "." + JsSdk::onClose.name + "(); " +
                 "}" +
                 "})"
                 )
@@ -30,6 +45,10 @@ class JsSdkImp(override var config: JsSdkConfig, override var listener: Listener
     @JavascriptInterface
     override fun authTrigger(isSignUp: Boolean) {
         this.listener.onAuthTrigger(isSignUp)
+    }
+    @JavascriptInterface
+    override fun onClose() {
+        this.listener.onClose()
     }
 }
 

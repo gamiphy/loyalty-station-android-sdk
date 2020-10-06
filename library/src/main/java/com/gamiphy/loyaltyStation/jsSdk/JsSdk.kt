@@ -6,13 +6,15 @@ import com.gamiphy.loyaltyStation.models.Listener
 
 interface JsSdk {
     var config: JsSdkConfig
-    var listener: Listener
+    var listener: JsListener
 
     fun getUrl(): String
     fun getInitScript(): String
 
     @JavascriptInterface
     fun authTrigger(isSignUp: Boolean)
+    @JavascriptInterface
+    fun onClose()
 
     companion object {
         var JAVASCRIPT_OBJ = "javascript_obj"

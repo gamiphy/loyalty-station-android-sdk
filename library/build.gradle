@@ -19,12 +19,11 @@ ext {
 }
 
 android {
-    compileSdkVersion 28
-
+    compileSdkVersion 30
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
+        minSdkVersion 16
+        targetSdkVersion 30
         versionCode 1
         versionName version
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -76,4 +75,6 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     implementation "androidx.constraintlayout:constraintlayout:2.0.1"
+    //Firebase
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.0'
 }

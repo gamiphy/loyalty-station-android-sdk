@@ -13,7 +13,7 @@ class LoyaltyStation {
         private lateinit var webViewIntent: Intent
 
         fun init(context: Context, config: Config, listener: Listener) {
-            WebViewActivity.init(WebViewConfig(config.app, config.user), listener)
+            WebViewActivity.init(WebViewConfig(config.app, config.agent, config.user), listener)
 
             webViewIntent = Intent(context, WebViewActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP

@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.gamiphy.loyaltyStation.R
+import com.gamiphy.loyaltyStation.jsSdk.JsListener
 import com.gamiphy.loyaltyStation.jsSdk.JsSdk
 import com.gamiphy.loyaltyStation.jsSdk.JsSdkImp
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
@@ -29,7 +30,7 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
     override fun onCreate(savedInstanceState: Bundle?) {
         checkFirstStart()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gamiphy_web_view);
+        setContentView(R.layout.activity_gamiphy_web_view)
 
         initViews()
         actionsList.add(this)
@@ -37,24 +38,24 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
 
     private fun checkFirstStart() {
         if (firstLogin) {
-            moveTaskToBack(true);
+            moveTaskToBack(true)
             firstLogin = false
         }
     }
 
     override fun login(user: User) {
-        config.user = user;
+        config.user = user
         refresh()
     }
 
     override fun logout() {
-        config.user = null;
-        WebStorage.getInstance().deleteAllData();
+        config.user = null
+        WebStorage.getInstance().deleteAllData()
         refresh()
     }
 
     override fun onBackPressed() {
-        moveTaskToBack(true);
+        moveTaskToBack(true)
     }
 
     override fun close() {
@@ -73,8 +74,6 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
     private fun initViews() {
         webView = findViewById(R.id.webView)
         progressBar = findViewById(R.id.progressBar)
-        closeBtn = findViewById(R.id.close_btn);
-        closeBtn.setOnClickListener { onBackPressed() }
         initWebView()
     }
 
@@ -100,13 +99,11 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 showLoading()
-                showCloseBtn()
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 hideLoading()
-                hideCloseBtn();
                 executeJavaScript(jsSdk.getInitScript())
             }
 
@@ -126,7 +123,6 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
                 error: SslError?
             ) {
                 hideLoading()
-                hideCloseBtn()
             }
 
             override fun onReceivedHttpError(
@@ -135,7 +131,6 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
                 errorResponse: WebResourceResponse?
             ) {
                 hideLoading()
-                hideCloseBtn()
             }
 
             override fun onReceivedError(
@@ -144,7 +139,6 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
                 error: WebResourceError?
             ) {
                 hideLoading()
-                hideCloseBtn()
             }
         }
     }
@@ -153,7 +147,7 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             webView.post { webView.evaluateJavascript(script, null) }
         } else {
-            webView.post { webView.loadUrl(script, null) }
+            webView.post { webView.loadUrl(script) }
         }
     }
 
@@ -165,27 +159,30 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
         progressBar.visibility = View.VISIBLE
     }
 
-    private fun showCloseBtn() {
-        closeBtn.visibility = View.GONE
-    }
-
-    private fun hideCloseBtn() {
-        closeBtn.visibility = View.VISIBLE
-    }
-
     companion object {
         private lateinit var config: WebViewConfig
         private lateinit var jsSdk: JsSdk
         var actionsList = mutableListOf<WebViewActions>()
 
         fun init(config: WebViewConfig, listener: Listener) {
-            WebViewActivity.config = config;
+            WebViewActivity.config = config
             jsSdk = JsSdkImp(
                 JsSdkConfig(
                     JsSdkInitConfig(config.app, config.user),
-                    Environments.STAGING
+                    Environments.STAGING,
+                    config.agent
                 ),
-                listener
+                object : JsListener {
+                    override fun onAuthTrigger(isSignUp: Boolean) {
+                        listener.onAuthTrigger(isSignUp)
+                    }
+
+                    override fun onClose() {
+                        actionsList.forEach {
+                            it.close()
+                        }
+                    }
+                }
             )
         }
     }
