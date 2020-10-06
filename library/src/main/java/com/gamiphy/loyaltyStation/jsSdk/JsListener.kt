@@ -1,4 +1,4 @@
-package com.gamiphy.loyaltyStation.jsSdk;
+package com.gamiphy.loyaltyStation.jsSdk
 
 interface JsListener {
 

@@ -16,10 +16,10 @@ class DemoApplication() : Application() {
             Config(
                 "5f71e34bdbaa0b0019df9c58",
                 User(
+                    id = "test-id",
                     firstName = "Riyad",
                     lastName = "Yahya",
-                    email = "riyad@gamiphy.co",
-                    hash = "cd479ab925badca85fa44f806fa5066b2f7375e6b4ca2089e92824db0a805c43"
+                    hash = "1f4279caf6d70aca238e17639a8768b7221ff488e791e79e7f746211b1c15bb2"
                 ),
                 Agents.Floward
             ),
