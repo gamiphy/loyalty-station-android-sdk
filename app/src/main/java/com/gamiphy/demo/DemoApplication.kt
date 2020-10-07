@@ -19,7 +19,7 @@ class DemoApplication() : Application() {
                     id = "test-id",
                     firstName = "Riyad",
                     lastName = "Yahya",
-                    hash = "1f4279caf6d70aca238e17639a8768b7221ff488e791e79e7f746211b1c15bb2"
+                    hash = "237ccb1812cf2c893e341788921ec62515ca6d0507d7e4577055b25b794f831c"
                 ),
                 Agents.Floward
             ),
