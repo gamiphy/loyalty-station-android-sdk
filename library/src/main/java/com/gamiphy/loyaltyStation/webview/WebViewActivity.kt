@@ -18,7 +18,7 @@ import com.gamiphy.loyaltyStation.jsSdk.JsSdkImp
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkInitConfig
 import com.gamiphy.loyaltyStation.models.Environments
-import com.gamiphy.loyaltyStation.models.Listener
+import com.gamiphy.loyaltyStation.models.OnAuthTriggerListener
 import com.gamiphy.loyaltyStation.models.User
 
 class WebViewActivity : AppCompatActivity(), WebViewActions {
@@ -164,17 +164,21 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
         private lateinit var jsSdk: JsSdk
         var actionsList = mutableListOf<WebViewActions>()
 
-        fun init(config: WebViewConfig, listener: Listener) {
+        fun init(config: WebViewConfig, onAuthTriggerListener: OnAuthTriggerListener?) {
             WebViewActivity.config = config
             jsSdk = JsSdkImp(
                 JsSdkConfig(
-                    JsSdkInitConfig(config.app, config.user),
+                    JsSdkInitConfig(
+                        app = config.app,
+                        user = config.user,
+                        prefLang = config.prefLang
+                    ),
                     Environments.STAGING,
                     config.agent
                 ),
                 object : JsListener {
                     override fun onAuthTrigger(isSignUp: Boolean) {
-                        listener.onAuthTrigger(isSignUp)
+                        onAuthTriggerListener?.onAuthTrigger(isSignUp)
                     }
 
                     override fun onClose() {

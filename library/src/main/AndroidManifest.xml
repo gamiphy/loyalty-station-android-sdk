@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gamiphy.loyaltyStation">
 
-    <application>
+    <application android:supportsRtl="true">
         <activity
             android:name="com.gamiphy.loyaltyStation.webview.WebViewActivity"
             android:launchMode="singleInstance"

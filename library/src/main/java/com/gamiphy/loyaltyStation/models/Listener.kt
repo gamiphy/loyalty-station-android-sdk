@@ -1,11 +1,13 @@
 package com.gamiphy.loyaltyStation.models;
 
-interface Listener {
-
+/**
+ * Interface definition for a callback to be invoked when the loyalty station requires login/sign up for the user.
+ */
+interface OnAuthTriggerListener {
     /**
-     *  Called when the loyalty station requires login/sign up for the user or the login button inside bot clicked.
+     * Called when a login/signup has been clicked.
      *
-     *  @param isSignUp : true for sign up redirection,false for login redirection.
+     * @param onAuthTrigger a login/signup has been clicked.
      */
     fun onAuthTrigger(isSignUp: Boolean)
 }

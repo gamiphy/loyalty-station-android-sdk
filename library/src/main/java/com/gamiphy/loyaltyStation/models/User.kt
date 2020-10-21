@@ -7,5 +7,6 @@ data class User(
     var email: String? = null,
     var hash: String,
     var avatar: String? = null,
-    var language: String? = null
+    var language: String? = null,
+    var country: String? = null
 )

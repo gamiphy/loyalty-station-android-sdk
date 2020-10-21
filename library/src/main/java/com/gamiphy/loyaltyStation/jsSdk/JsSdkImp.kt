@@ -1,17 +1,16 @@
 package com.gamiphy.loyaltyStation.jsSdk
 
-import android.util.Log
 import android.webkit.JavascriptInterface
 import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
-import com.gamiphy.loyaltyStation.models.Agents
 import com.gamiphy.loyaltyStation.models.Environments
 import com.google.gson.Gson
 
 class JsSdkImp(override var config: JsSdkConfig, override var listener: JsListener) : JsSdk {
     private fun getPath(): String {
         return when (this.config.agent) {
-            Agents.Default -> "/sdk/android.html"
-            Agents.Floward -> "/sdk/custom/floward/index.html"
+            "floward" -> "/sdk/custom/floward/index.html"
+
+            else -> "/sdk/custom/floward/index.html"
         }
     }
 
