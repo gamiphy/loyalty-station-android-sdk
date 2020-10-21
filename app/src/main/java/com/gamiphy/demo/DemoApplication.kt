@@ -23,6 +23,7 @@ class DemoApplication() : Application() {
             ))
             .setOnAuthTriggerListener(object: OnAuthTriggerListener {
                 override fun onAuthTrigger(isSignUp: Boolean) {
+                    // make your action here, you may start login activity
                     Log.d("onAuthTrigger", "$isSignUp")
                 }
             })

@@ -13,11 +13,10 @@ Gamiphy Loyalty & Rewards, is a gamified loyalty program plugin/widget for eComm
 
 ## Installation
 
-Gamiphy Loyalty & Rewards is available through [JitPack](https://github.com/gamiphy/loyalty-station-android-sdk). To install
-it, simply add the dependency for the Gamiphy SDK in your module (app-level) Gradle file (usually app/build.gradle):
+Gamiphy Loyalty & Rewards is available through JitPack. To install it, simply add the dependency for the Gamiphy SDK in your module (app-level) Gradle file (usually app/build.gradle):
 
 ```gradle
-    implementation 'com.github.gamiphy:loyalty-station-android-sdk:v1.0.5'
+    implementation 'com.github.gamiphy:loyalty-station-android-sdk:<latest>'
 ```
 
 and make sure you have jitpack in your root-level (project-level) Gradle file (build.gradle), 
@@ -38,27 +37,28 @@ Gamiphy SDK needs to be initialized in Application class, you can do that by cal
 you can get after you signup for an account at Gamiphy. Kindly note the initilize method below. 
 
 ```kotlin
-    GamiBot.init(applicationContext,
-        Config(
-            app = <app id>,
-            User(
-                firstName = <User first name>,
-                lastName = <User last name>,
-                email = <User email>,
-                hash = <User hash>
-            )
-        ),
-        object : Listener {
+    LoyaltyStation
+        .setApp("5f71e34bdbaa0b0019df9c58")
+        .setAgent("floward")
+        .setLanguage("en_US")
+        .setUser(User(
+            id = "test-id",
+            country = "ps",
+            firstName = "Riyad",
+            lastName = "Yahya",
+            hash = "237ccb1812cf2c893e341788921ec62515ca6d0507d7e4577055b25b794f831c"
+        ))
+        .setOnAuthTriggerListener(object: OnAuthTriggerListener {
             override fun onAuthTrigger(isSignUp: Boolean) {
                 // make your action here, you may start login activity
                 Log.d("onAuthTrigger", "$isSignUp")
             }
-        }
-    )
+        })
+        .initialize(this)
 ```
 To open the bot, use the following line.
 ```kotlin
-    GamiBot.open(applicationContext)
+    LoyaltyStation.open(applicationContext)
 ```
 ## Widget visitor flow 
 
@@ -66,7 +66,7 @@ Gamiphy Loyalty Station support the ability for the end users to navigate the di
 
 In login activity, after the user logged in, set user name and email and start gamiphy view
 ```kotlin
-    GamiphySDK.login(User(firstName,lastName,email,hash))
+    LoyaltyStation.login(User(firstName,lastName,email,hash))
 ```
 
 
