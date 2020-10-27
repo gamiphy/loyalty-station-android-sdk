@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.gamiphy.loyaltyStation.models.OnAuthTriggerListener
 import com.gamiphy.loyaltyStation.models.User
+import com.gamiphy.loyaltyStation.models.UserReferral
 import com.gamiphy.loyaltyStation.webview.WebViewActivity
 import com.gamiphy.loyaltyStation.webview.WebViewConfig
 
@@ -11,9 +12,6 @@ import com.gamiphy.loyaltyStation.webview.WebViewConfig
  * Gamiphy Loyalty Station sdk
  */
 class LoyaltyStation {
-    /** WebView intent **/
-    private var webViewIntent: Intent? = null
-
     /** Loyalty station app id **/
     private var app: String? = null
 
@@ -26,6 +24,12 @@ class LoyaltyStation {
     /** Preferable language **/
     private var language: String? = null
 
+    /** Dynamic link instance **/
+    private var dynamicLink: DynamicLink? = null
+
+    /** WebView intent **/
+    private var webViewIntent: Intent? = null
+
     /** Listen to the loyalty station when login/sign up for the user **/
     private var onAuthTriggerListener: OnAuthTriggerListener? = null
 
@@ -37,12 +41,13 @@ class LoyaltyStation {
     fun initialize(context: Context) {
         val app = this.app;
 
+        //App should be provided before initialize
         if (app != null) {
             WebViewActivity.init(
                 config = WebViewConfig(
                     app = app,
                     agent = this.agent,
-                    user = this.user,
+                    user = this.getUser(),
                     prefLang = this.language
                 ),
                 onAuthTriggerListener = this.onAuthTriggerListener
@@ -53,9 +58,24 @@ class LoyaltyStation {
             }
 
             context.startActivity(this.webViewIntent)
+
+            //Create dynamic link instance
+            this.dynamicLink = DynamicLink(this.webViewIntent!!)
         } else {
             throw Exception("[Loyalty Station] App id not set")
         }
+    }
+
+    private fun getUser(): User? {
+        val dynamicLinkReferrer = this.dynamicLink?.getReferrer();
+
+        if (dynamicLinkReferrer !== null) {
+            this.user?.referral = UserReferral(
+                referrer = dynamicLinkReferrer
+            )
+        }
+
+        return this.user
     }
 
     companion object {
@@ -149,8 +169,10 @@ class LoyaltyStation {
          * @param user User data
          */
         fun login(user: User) {
+            this.instance.user = user;
+
             WebViewActivity.actionsList.forEach {
-                it.login(user)
+                it.login(this.instance.getUser()!!)
             }
         }
 
