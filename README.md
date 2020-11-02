@@ -42,10 +42,13 @@ you can get after you signup for an account at Gamiphy. Kindly note the initiliz
         .setAgent("floward")
         .setLanguage("en_US")
         .setUser(User(
-            id = "test-id",
-            country = "ps",
-            firstName = "Riyad",
-            lastName = "Yahya",
+            id = string,
+            country = string,
+            firstName = string,
+            lastName = string,
+            referral = UserReferral(
+                referrer = string
+            )
             hash = "237ccb1812cf2c893e341788921ec62515ca6d0507d7e4577055b25b794f831c"
         ))
         .setOnAuthTriggerListener(object: OnAuthTriggerListener {
