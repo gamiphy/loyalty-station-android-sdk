@@ -60,6 +60,8 @@ To open the bot, use the following line.
 ```kotlin
     LoyaltyStation.open(applicationContext)
 ```
+
+
 ## Widget visitor flow 
 
 Gamiphy Loyalty Station support the ability for the end users to navigate the different features available, without even being logged in. But whenever the users trying to perform actions they will be redirected to either login or signup to the application. You need to specify the Activity where the users can login / register in your application. OnAuthTrigger method called when click signUp/login in the widget. isSignUp true for signup redirection, isSignUp false for login redirection.
@@ -70,5 +72,13 @@ In login activity, after the user logged in, set user name and email and start g
 ```
 
 
+## Referral program integration
 
+Loyalty station supports users referrals through firebase dynamic links. Gamiphy system generates a dynamic link for every user. This link includes the referrer id of the original user.
+To get the benefit of the referral system, you need to pass the dynamic link parameter to the Loyalty station sdk. The SDK will handle it from there.
 
+### Parse dynamic link
+Follow the firebase official doc to parse the dynamic link and read the required parameter. You can check [here](https://firebase.google.com/docs/dynamic-links/android/receive).
+
+### Pass referrer parameter
+You need to read the `ls-referrer` parameter from the dynamic link and pass it to the Loyalty station under user.referral.referrer
