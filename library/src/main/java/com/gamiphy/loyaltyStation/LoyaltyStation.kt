@@ -24,9 +24,6 @@ class LoyaltyStation {
     /** Preferable language **/
     private var language: String? = null
 
-    /** Dynamic link instance **/
-    private var dynamicLink: DynamicLink? = null
-
     /** WebView intent **/
     private var webViewIntent: Intent? = null
 
@@ -47,7 +44,7 @@ class LoyaltyStation {
                 config = WebViewConfig(
                     app = app,
                     agent = this.agent,
-                    user = this.getUser(),
+                    user = this.user,
                     prefLang = this.language
                 ),
                 onAuthTriggerListener = this.onAuthTriggerListener
@@ -58,24 +55,9 @@ class LoyaltyStation {
             }
 
             context.startActivity(this.webViewIntent)
-
-            //Create dynamic link instance
-            this.dynamicLink = DynamicLink(this.webViewIntent!!)
         } else {
             throw Exception("[Loyalty Station] App id not set")
         }
-    }
-
-    private fun getUser(): User? {
-        val dynamicLinkReferrer = this.dynamicLink?.getReferrer();
-
-        if (dynamicLinkReferrer !== null) {
-            this.user?.referral = UserReferral(
-                referrer = dynamicLinkReferrer
-            )
-        }
-
-        return this.user
     }
 
     companion object {
@@ -172,7 +154,7 @@ class LoyaltyStation {
             this.instance.user = user;
 
             WebViewActivity.actionsList.forEach {
-                it.login(this.instance.getUser()!!)
+                it.login(this.instance.user!!)
             }
         }
 
