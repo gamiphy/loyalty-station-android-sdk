@@ -29,9 +29,6 @@ class LoyaltyStation {
 
             //Start the activity
             context.startActivity(this.webViewIntent)
-
-            //Create dynamic link instance
-            Config.instance.dynamicLink = DynamicLink(this.webViewIntent!!)
         } else {
             throw Exception("[Loyalty Station] App id not set")
         }

@@ -75,7 +75,4 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.3.0'
     implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
     implementation "androidx.constraintlayout:constraintlayout:2.0.2"
-    //Firebase
-    implementation platform('com.google.firebase:firebase-bom:25.12.0')
-    implementation 'com.google.firebase:firebase-dynamic-links-ktx:19.1.1'
 }
