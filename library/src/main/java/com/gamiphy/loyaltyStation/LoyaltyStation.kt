@@ -4,34 +4,14 @@ import android.content.Context
 import android.content.Intent
 import com.gamiphy.loyaltyStation.models.OnAuthTriggerListener
 import com.gamiphy.loyaltyStation.models.User
-import com.gamiphy.loyaltyStation.models.UserReferral
 import com.gamiphy.loyaltyStation.webview.WebViewActivity
-import com.gamiphy.loyaltyStation.webview.WebViewConfig
 
 /**
  * Gamiphy Loyalty Station sdk
  */
 class LoyaltyStation {
-    /** Loyalty station app id **/
-    private var app: String? = null
-
-    /** Logged in user data **/
-    private var user: User? = null
-
-    /** Gamiphy agent key **/
-    private var agent: String? = null
-
-    /** Preferable language **/
-    private var language: String? = null
-
-    /** Dynamic link instance **/
-    private var dynamicLink: DynamicLink? = null
-
     /** WebView intent **/
     private var webViewIntent: Intent? = null
-
-    /** Listen to the loyalty station when login/sign up for the user **/
-    private var onAuthTriggerListener: OnAuthTriggerListener? = null
 
     /**
      * Initialize Gamiphy loyalty station app
@@ -39,43 +19,22 @@ class LoyaltyStation {
      * @param context Application context
      */
     fun initialize(context: Context) {
-        val app = this.app;
+        val app = Config.instance.app;
 
         //App should be provided before initialize
         if (app != null) {
-            WebViewActivity.init(
-                config = WebViewConfig(
-                    app = app,
-                    agent = this.agent,
-                    user = this.getUser(),
-                    prefLang = this.language
-                ),
-                onAuthTriggerListener = this.onAuthTriggerListener
-            )
-
             this.webViewIntent = Intent(context, WebViewActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
 
+            //Start the activity
             context.startActivity(this.webViewIntent)
 
             //Create dynamic link instance
-            this.dynamicLink = DynamicLink(this.webViewIntent!!)
+            Config.instance.dynamicLink = DynamicLink(this.webViewIntent!!)
         } else {
             throw Exception("[Loyalty Station] App id not set")
         }
-    }
-
-    private fun getUser(): User? {
-        val dynamicLinkReferrer = this.dynamicLink?.getReferrer();
-
-        if (dynamicLinkReferrer !== null) {
-            this.user?.referral = UserReferral(
-                referrer = dynamicLinkReferrer
-            )
-        }
-
-        return this.user
     }
 
     companion object {
@@ -87,7 +46,7 @@ class LoyaltyStation {
          * @param app loyalty station app id
          */
         fun setApp(app: String): Companion {
-            this.instance.app = app
+            Config.instance.app = app
 
             return LoyaltyStation
         }
@@ -98,7 +57,7 @@ class LoyaltyStation {
          * @param user logged in user data
          */
         fun setUser(user: User): Companion {
-            this.instance.user = user
+            Config.instance.user = user
 
             return LoyaltyStation
         }
@@ -109,7 +68,7 @@ class LoyaltyStation {
          * @param language preferred language to show
          */
         fun setLanguage(language: String): Companion {
-            this.instance.language = language
+            Config.instance.language = language
 
             return LoyaltyStation
         }
@@ -120,7 +79,18 @@ class LoyaltyStation {
          * @param agent custom ui key - provided by Gamiphy team
          */
         fun setAgent(agent: String): Companion {
-            this.instance.agent = agent
+            Config.instance.agent = agent
+
+            return LoyaltyStation
+        }
+
+        /**
+         * Set custom agent
+         *
+         * @param sandbox is sandbox enabled
+         */
+        fun setSandbox(sandbox: Boolean): Companion {
+            Config.instance.sandbox = sandbox
 
             return LoyaltyStation
         }
@@ -131,7 +101,7 @@ class LoyaltyStation {
          * @param onAuthTriggerListener a callback to be invoked when the loyalty station requires login/sign up for the user
          */
         fun setOnAuthTriggerListener(onAuthTriggerListener: OnAuthTriggerListener): Companion {
-            this.instance.onAuthTriggerListener = onAuthTriggerListener
+            Config.instance.onAuthTriggerListener = onAuthTriggerListener
 
             return LoyaltyStation
         }
@@ -158,7 +128,8 @@ class LoyaltyStation {
          * Close loyalty station activity
          */
         fun close() {
-            WebViewActivity.actionsList.forEach {
+            this.instance.webViewIntent
+            Config.instance.actionsList.forEach {
                 it.close()
             }
         }
@@ -169,10 +140,10 @@ class LoyaltyStation {
          * @param user User data
          */
         fun login(user: User) {
-            this.instance.user = user;
+            Config.instance.user = user;
 
-            WebViewActivity.actionsList.forEach {
-                it.login(this.instance.getUser()!!)
+            Config.instance.actionsList.forEach {
+                it.login(Config.instance.user!!)
             }
         }
 
@@ -180,7 +151,7 @@ class LoyaltyStation {
          * Logout user from the loyalty station
          */
         fun logout() {
-            WebViewActivity.actionsList.forEach {
+            Config.instance.actionsList.forEach {
                 it.logout()
             }
         }

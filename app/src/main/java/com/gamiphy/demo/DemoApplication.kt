@@ -14,14 +14,17 @@ class DemoApplication() : Application() {
             .setApp("5f71e34bdbaa0b0019df9c58")
             .setAgent("floward")
             .setLanguage("en_US")
-            .setUser(User(
-                id = "test-id",
-                country = "ps",
-                firstName = "Riyad",
-                lastName = "Yahya",
-                hash = "237ccb1812cf2c893e341788921ec62515ca6d0507d7e4577055b25b794f831c"
-            ))
-            .setOnAuthTriggerListener(object: OnAuthTriggerListener {
+            .setUser(
+                User(
+                    id = "test-id",
+                    country = "ps",
+                    firstName = "Riyad",
+                    lastName = "Yahya",
+                    hash = "237ccb1812cf2c893e341788921ec62515ca6d0507d7e4577055b25b794f831c"
+                )
+            )
+            .setSandbox(true)
+            .setOnAuthTriggerListener(object : OnAuthTriggerListener {
                 override fun onAuthTrigger(isSignUp: Boolean) {
                     // make your action here, you may start login activity
                     Log.d("onAuthTrigger", "$isSignUp")

@@ -6,7 +6,6 @@ import com.gamiphy.loyaltyStation.models.User
 
 @RestrictTo(Scope.LIBRARY)
 interface WebViewActions {
-
     fun login(user: User)
 
     fun logout()
@@ -14,4 +13,6 @@ interface WebViewActions {
     fun close()
 
     fun refresh()
+
+    fun share(text: String, link: String)
 }

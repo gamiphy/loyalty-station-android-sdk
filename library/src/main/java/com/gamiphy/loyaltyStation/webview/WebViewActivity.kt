@@ -1,31 +1,44 @@
 package com.gamiphy.loyaltyStation.webview
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.http.SslError
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.webkit.*
-import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.gamiphy.loyaltyStation.Config
 import com.gamiphy.loyaltyStation.R
-import com.gamiphy.loyaltyStation.jsSdk.JsListener
-import com.gamiphy.loyaltyStation.jsSdk.JsSdk
-import com.gamiphy.loyaltyStation.jsSdk.JsSdkImp
-import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkConfig
-import com.gamiphy.loyaltyStation.jsSdk.models.JsSdkInitConfig
-import com.gamiphy.loyaltyStation.models.Environments
-import com.gamiphy.loyaltyStation.models.OnAuthTriggerListener
 import com.gamiphy.loyaltyStation.models.User
 
 class WebViewActivity : AppCompatActivity(), WebViewActions {
     private lateinit var webView: WebView
-    private lateinit var closeBtn: ImageButton
     private lateinit var progressBar: ProgressBar
     private var firstLogin: Boolean = true
+    private val jsSdk = JsSdkImp()
+
+    private fun getPath(): String {
+        return when (Config.instance.agent) {
+            "floward" -> "/sdk/custom/floward/index.html"
+
+            else -> "/sdk/custom/floward/index.html"
+        }
+    }
+
+    private fun getDomain(): String {
+        return when (Config.instance.sandbox) {
+            true -> "https://static-staging.gamiphy.co"
+            else -> "https://sdk.gamiphy.co"
+        }
+    }
+
+    private fun getUrl(): String {
+        return this.getDomain() + this.getPath()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         checkFirstStart()
@@ -33,7 +46,7 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
         setContentView(R.layout.activity_gamiphy_web_view)
 
         initViews()
-        actionsList.add(this)
+        Config.instance.actionsList.add(this)
     }
 
     private fun checkFirstStart() {
@@ -44,12 +57,12 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
     }
 
     override fun login(user: User) {
-        config.user = user
+        Config.instance.user = user
         refresh()
     }
 
     override fun logout() {
-        config.user = null
+        Config.instance.user = null
         WebStorage.getInstance().deleteAllData()
         refresh()
     }
@@ -64,7 +77,7 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
 
     override fun onDestroy() {
         super.onDestroy()
-        actionsList.clear()
+        Config.instance.actionsList.clear()
     }
 
     override fun refresh() {
@@ -92,8 +105,8 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
 
         }
 
-        webView.loadUrl(jsSdk.getUrl())
-        webView.addJavascriptInterface(jsSdk, JsSdk.JAVASCRIPT_OBJ)
+        webView.loadUrl(getUrl())
+        webView.addJavascriptInterface(jsSdk, jsSdk.JAVASCRIPT_OBJ)
 
         webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
@@ -159,35 +172,14 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
         progressBar.visibility = View.VISIBLE
     }
 
-    companion object {
-        private lateinit var config: WebViewConfig
-        private lateinit var jsSdk: JsSdk
-        var actionsList = mutableListOf<WebViewActions>()
-
-        fun init(config: WebViewConfig, onAuthTriggerListener: OnAuthTriggerListener?) {
-            WebViewActivity.config = config
-            jsSdk = JsSdkImp(
-                JsSdkConfig(
-                    JsSdkInitConfig(
-                        app = config.app,
-                        user = config.user,
-                        prefLang = config.prefLang
-                    ),
-                    Environments.STAGING,
-                    config.agent
-                ),
-                object : JsListener {
-                    override fun onAuthTrigger(isSignUp: Boolean) {
-                        onAuthTriggerListener?.onAuthTrigger(isSignUp)
-                    }
-
-                    override fun onClose() {
-                        actionsList.forEach {
-                            it.close()
-                        }
-                    }
-                }
-            )
+    override fun share(text: String, link: String) {
+        val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "$text \n $link")
+            type = "text/plain"
         }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }
