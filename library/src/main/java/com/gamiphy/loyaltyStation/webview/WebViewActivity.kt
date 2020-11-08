@@ -32,7 +32,7 @@ class WebViewActivity : AppCompatActivity(), WebViewActions {
     private fun getDomain(): String {
         return when (Config.instance.sandbox) {
             true -> "https://static-staging.gamiphy.co"
-            else -> "https://sdk.gamiphy.co"
+            else -> "https://staging.gamiphy.co"
         }
     }
 

@@ -9,17 +9,6 @@ class Config private constructor() {
 
     /** Logged in user data **/
     var user: User? = null
-        get() {
-            val dynamicLinkReferrer = dynamicLink?.getReferrer();
-
-            if (dynamicLinkReferrer !== null) {
-                field?.referral = UserReferral(
-                    referrer = dynamicLinkReferrer
-                )
-            }
-
-            return field
-        }
 
     /** Gamiphy agent key **/
     var agent: String? = null
@@ -29,9 +18,6 @@ class Config private constructor() {
 
     /** Sandbox enabled **/
     var sandbox: Boolean? = false
-
-    /** Dynamic link instance **/
-    var dynamicLink: DynamicLink? = null
 
     /** Loyalty station actions list **/
     var actionsList = mutableListOf<WebViewActions>()
