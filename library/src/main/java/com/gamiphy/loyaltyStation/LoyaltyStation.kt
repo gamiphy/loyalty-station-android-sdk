@@ -26,9 +26,6 @@ class LoyaltyStation {
             this.webViewIntent = Intent(context, WebViewActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
-
-            //Start the activity
-            context.startActivity(this.webViewIntent)
         } else {
             throw Exception("[Loyalty Station] App id not set")
         }
